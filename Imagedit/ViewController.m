@@ -8,6 +8,39 @@
 
 #import "ViewController.h"
 
+@interface ImageFilter : NSOperation
+
+@property (nonatomic,strong) UIImage * m_pImage;
+
+- (id)initWithImage:(UIImage*)_pImage;
+
+@end
+
+@implementation ImageFilter
+
+- (id)initWithImage:(UIImage*)_pImage {
+    if (self = [super init]) {
+        self.m_pImage = _pImage;
+    }
+    return self;
+}
+
+- (void) main {
+    NSLog(@"background operation %@", self.m_pImage);
+    for (int i = 0; i < 5; ++i) {
+        NSLog(@"iteration in %d", i);
+        sleep(1);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //            [progressbar setDoubleValue:progr];
+            //            [progressbar setNeedsDisplay:YES];
+            NSLog(@"background progress %d", i);
+        });
+        NSLog(@"iteration out %d", i);
+    }
+}
+
+@end
+
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationBarDelegate>
 
 @end
@@ -18,6 +51,9 @@
     [super viewDidLoad];
 //    [m_pImageView ];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    self.m_pOperationQueue = [[NSOperationQueue alloc]init];
+    self.m_pOperationQueue.maxConcurrentOperationCount = 4;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,19 +106,26 @@
 }
 
 - (IBAction)mirrorImage:(id)sender {
+    ImageFilter *downloader = [[ImageFilter alloc] initWithImage:_m_pImageView.image];
+    downloader.completionBlock = ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"completionBlock");
+        });
+    };
+    [self.m_pOperationQueue addOperation:downloader];
+    
     _m_pImageView.transform = CGAffineTransformMakeScale(-1, 1);
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"%@", info);
     
     _m_pImageView.image =
     [info objectForKey:UIImagePickerControllerOriginalImage];
 }
 
-UICollectionView
+
 
 - (void)imagePickerControllerDidCancel:
 (UIImagePickerController *)picker {

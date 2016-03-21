@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image2.png" translatesAutoresizingMaskIntoConstraints="NO" id="IiW-qY-j8l">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image2.png" translatesAutoresizingMaskIntoConstraints="NO" id="IiW-qY-j8l" customClass="ImageViewWithProgress">
                                 <rect key="frame" x="20" y="20" width="230" height="279"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coI-97-eXX">
@@ -28,21 +28,21 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcg-Tn-rIS">
-                                <rect key="frame" x="198" y="337" width="46" height="30"/>
+                                <rect key="frame" x="303" y="20" width="46" height="30"/>
                                 <state key="normal" title="Rotate"/>
                                 <connections>
                                     <action selector="rotateImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xhK-Tq-b0h"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6O-ha-2Z4">
-                                <rect key="frame" x="198" y="389" width="67" height="30"/>
+                                <rect key="frame" x="293" y="70" width="67" height="30"/>
                                 <state key="normal" title="Invert Colors"/>
                                 <connections>
                                     <action selector="invertColors:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zhv-Vz-4z9"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1g-NA-0lc">
-                                <rect key="frame" x="198" y="444" width="46" height="30"/>
+                                <rect key="frame" x="303" y="122" width="46" height="30"/>
                                 <state key="normal" title="Mirror"/>
                                 <connections>
                                     <action selector="mirrorImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cXz-Cg-CG4"/>
