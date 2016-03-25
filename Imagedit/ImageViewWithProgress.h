@@ -10,6 +10,7 @@
 
 @class Operation;
 
+//http://stackoverflow.com/questions/19831885/set-progress-bar-for-downloading-nsdata
 @interface ImageViewWithProgress : UIImageView
 
 - (void)updateProgress:(int)_nProgress;

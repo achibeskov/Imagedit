@@ -29,8 +29,11 @@
 
 - (void) main {
     NSLog(@"background operation %@", self.m_pImage);
-    for (int i = 0; i < 5; ++i) {
+    NSLog(@"%@", [NSThread currentThread]);
+    for (int i = 0; i < 10; ++i) {
         NSLog(@"iteration in %d", i);
+        if (self.isCancelled)
+            return;
         sleep(1);
         dispatch_async(dispatch_get_main_queue(), ^{
             //            [progressbar setDoubleValue:progr];
@@ -84,13 +87,23 @@
             NSLog(@"completionBlock");
         });
     };
+
+    ImageFilter *downloader1 = [[ImageFilter alloc] initWithImage:_m_pImageView.image];
+    downloader1.completionBlock = ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"completionBlock");
+        });
+    };
+
     [self.m_pOperationQueue addOperation:downloader];
+    [self.m_pOperationQueue addOperation:downloader1];
     
     InvertImage * ri = [[InvertImage alloc] initWithImage:_m_pImageView.image];
     _m_pImageViewResult.image = [ri getImage];
 }
 
 - (IBAction)mirrorImage:(id)sender {
+    [self.m_pOperationQueue cancelAllOperations];
     MirrorImage * ri = [[MirrorImage alloc] initWithImage:_m_pImageView.image];
     _m_pImageViewResult.image = [ri getImage];
 }
