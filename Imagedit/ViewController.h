@@ -14,7 +14,7 @@
 
 @property (nonatomic) IBOutlet ImageViewWithProgress * m_pImageView;
 @property (nonatomic) IBOutlet ImageViewWithProgress * m_pImageViewResult;
-@property (nonatomic) NSOperationQueue * m_pOperationQueue;
+@property (nonatomic, strong) NSOperationQueue * m_pOperationQueue;
 
 - (IBAction)loadImage:(id)sender;
 - (IBAction)rotateImage:(id)sender;

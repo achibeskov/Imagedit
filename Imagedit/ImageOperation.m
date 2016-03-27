@@ -8,60 +8,69 @@
 
 #import "ImageOperation.h"
 
-@interface RotateImage ()
+@implementation ImageChange
 
-@property (nonatomic, strong) UIImage *pImageToProcess;
+- (id) initWithImage:(UIImage*)_pImage {
+    if (self = [super init]) {
+        _pImageToProcess = _pImage;
+        return self;
+    }
+    return nil;
+}
+
+- (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification {
+    srand(time(NULL));
+    int delay = rand()%26+5;
+    for (int i = 0; i < delay; ++i) {
+        NSLog(@"iteration in %d", i);
+//        sleep(1);
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [_progressNotification update:i];
+        }];
+        NSLog(@"iteration out %d", i);
+    }
+}
+
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    return nil;
+}
 
 @end
 
 @implementation RotateImage
 
-@synthesize pImageToProcess;
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    [self fakeDelay:_progressNotification];
 
-- (UIImage*) getImage {
+    CGSize size = self.pImageToProcess.size;
     // rotate image
-    UIGraphicsBeginImageContext(pImageToProcess.size);
+    UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGSize size = pImageToProcess.size;
     
     CGContextTranslateCTM(context, 0.5f * size.width, 0.5f * size.height);
     CGContextRotateCTM(context, M_PI_2);
     CGContextTranslateCTM(context, -0.5f * size.width, -0.5f * size.height);
 
-    [pImageToProcess drawInRect:CGRectMake(0, 0, pImageToProcess.size.width, pImageToProcess.size.height)];
+    [self.pImageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
     return image;
 }
 
-- (id) initWithImage:(UIImage*)_pImage {
-    if (self = [super init]) {
-        pImageToProcess = _pImage;
-        return self;
-    }
-    return nil;
-}
-
-@end
-
-@interface InvertImage ()
-
-@property (nonatomic, strong) UIImage *pImageToProcess;
-
 @end
 
 @implementation InvertImage
 
-@synthesize pImageToProcess;
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    [self fakeDelay:_progressNotification];
 
-- (UIImage*) getImage {
+    CGSize size = self.pImageToProcess.size;
     // make image black and white
-    CGRect imageRect = CGRectMake(0, 0, pImageToProcess.size.width, pImageToProcess.size.height);
+    CGRect imageRect = CGRectMake(0, 0, size.width, size.height);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    CGContextRef context = CGBitmapContextCreate(nil, pImageToProcess.size.width, pImageToProcess.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
-    CGContextDrawImage(context, imageRect, [pImageToProcess CGImage]);
+    CGContextRef context = CGBitmapContextCreate(nil, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaNone);
+    CGContextDrawImage(context, imageRect, [self.pImageToProcess CGImage]);
     CGImageRef imageRef = CGBitmapContextCreateImage(context);
 
     UIImage *newImage = [UIImage imageWithCGImage:imageRef];
@@ -73,50 +82,52 @@
     return newImage;
 }
 
-- (id) initWithImage:(UIImage*)_pImage {
-    if (self = [super init]) {
-        pImageToProcess = _pImage;
-        return self;
-    }
-    return nil;
-}
-
-@end
-
-@interface MirrorImage ()
-
-@property (nonatomic, strong) UIImage *pImageToProcess;
-
 @end
 
 @implementation MirrorImage
 
-@synthesize pImageToProcess;
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    [self fakeDelay:_progressNotification];
 
-- (UIImage*) getImage {
-    // rotate image
-    UIGraphicsBeginImageContext(pImageToProcess.size);
+    CGSize size = self.pImageToProcess.size;
+    // mirror image
+    UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGSize size = pImageToProcess.size;
 
     CGContextTranslateCTM(context, 0.5f * size.width, 0.5f * size.height);
     CGContextScaleCTM(context, -1, 1);
     CGContextTranslateCTM(context, -0.5f * size.width, -0.5f * size.height);
 
-    [pImageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    [self.pImageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     return image;
 }
 
-- (id) initWithImage:(UIImage*)_pImage {
+@end
+
+@interface DownlodImage ()
+@property (nonatomic) NSMutableData *imageData;
+@property (nonatomic) NSUInteger totalBytes;
+@property (nonatomic) NSUInteger receivedBytes;
+@end
+
+@implementation DownlodImage
+
+- (id) initWithUrl:(NSURL*)pURL {
     if (self = [super init]) {
-        pImageToProcess = _pImage;
+        _pURL = pURL;
         return self;
     }
     return nil;
+}
+
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    NSData *myData = [NSData dataWithContentsOfURL:_pURL];
+    UIImage *image = [UIImage imageWithData:myData];
+    NSLog(@"DownlodImage %@ %@ %@", _pURL, myData, image);
+    return image;
 }
 
 @end

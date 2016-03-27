@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2924C4CE1CA6A5E000A9996D /* ImageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2924C4CD1CA6A5E000A9996D /* ImageProcessor.m */; };
 		29B71C081C9D3B460087F689 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B71C071C9D3B460087F689 /* main.m */; };
 		29B71C0B1C9D3B460087F689 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B71C0A1C9D3B460087F689 /* AppDelegate.m */; };
 		29B71C0E1C9D3B460087F689 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B71C0D1C9D3B460087F689 /* ViewController.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2924C4CC1CA6A5E000A9996D /* ImageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageProcessor.h; sourceTree = "<group>"; };
+		2924C4CD1CA6A5E000A9996D /* ImageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageProcessor.m; sourceTree = "<group>"; };
 		29B71C031C9D3B460087F689 /* Imagedit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Imagedit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B71C071C9D3B460087F689 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B71C091C9D3B460087F689 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -80,6 +83,8 @@
 				29B71C251CA057100087F689 /* ImageViewWithProgress.m */,
 				29B71C271CA381B70087F689 /* ImageOperation.h */,
 				29B71C281CA381B70087F689 /* ImageOperation.m */,
+				2924C4CC1CA6A5E000A9996D /* ImageProcessor.h */,
+				2924C4CD1CA6A5E000A9996D /* ImageProcessor.m */,
 			);
 			path = Imagedit;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2924C4CE1CA6A5E000A9996D /* ImageProcessor.m in Sources */,
 				29B71C0E1C9D3B460087F689 /* ViewController.m in Sources */,
 				29B71C261CA057100087F689 /* ImageViewWithProgress.m in Sources */,
 				29B71C0B1C9D3B460087F689 /* AppDelegate.m in Sources */,

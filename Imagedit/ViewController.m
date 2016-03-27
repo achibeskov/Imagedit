@@ -8,43 +8,7 @@
 
 #import "ViewController.h"
 #import "ImageOperation.h"
-
-@interface ImageFilter : NSOperation
-
-@property (nonatomic,strong) UIImage * m_pImage;
-
-- (id)initWithImage:(UIImage*)_pImage;
-
-@end
-
-@implementation ImageFilter
-
-- (id)initWithImage:(UIImage*)_pImage {
-    if (self = [super init]) {
-        self.m_pImage = _pImage;
-//        self.completionBlock =
-    }
-    return self;
-}
-
-- (void) main {
-    NSLog(@"background operation %@", self.m_pImage);
-    NSLog(@"%@", [NSThread currentThread]);
-    for (int i = 0; i < 10; ++i) {
-        NSLog(@"iteration in %d", i);
-        if (self.isCancelled)
-            return;
-        sleep(1);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //            [progressbar setDoubleValue:progr];
-            //            [progressbar setNeedsDisplay:YES];
-            NSLog(@"background progress %d", i);
-        });
-        NSLog(@"iteration out %d", i);
-    }
-}
-
-@end
+#import "ImageProcessor.h"
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationBarDelegate>
 
@@ -54,10 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [m_pImageView ];
-    // Do any additional setup after loading the view, typically from a nib.
     
-    self.m_pOperationQueue = [[NSOperationQueue alloc]init];
+    self.m_pOperationQueue = [[NSOperationQueue alloc] init];
     self.m_pOperationQueue.maxConcurrentOperationCount = 4;
 }
 
@@ -69,43 +31,36 @@
 // --- button actions ---
 
 - (IBAction)loadImage:(id)sender {
-    UIImagePickerController *pickerC =
-    [[UIImagePickerController alloc] init];
-    pickerC.delegate = self;
-    [self presentViewController:pickerC animated:YES completion:nil];
+//    UIImagePickerController *pickerC =
+//    [[UIImagePickerController alloc] init];
+//    pickerC.delegate = self;
+//    [self presentViewController:pickerC animated:YES completion:nil];
+    DownlodImage * ri = [[DownlodImage alloc] initWithUrl:[NSURL URLWithString:@"http://i0.kym-cdn.com/entries/icons/original/000/005/545/OpoQQ.jpg"]];
+    [self processOperation:ri withReceiver:self.m_pImageView];
+}
+
+- (void) processOperation:(id<ImageOperation>)_operarion withReceiver:(id<ImageOperationProgress>)_receiver {
+    // create image view with progress (cell)
+    // add cell to down
+    // +create nsopeartion with source image and operation to process
+    // +use cell as callback receiver
+    ImageProcessor *downloader = [[ImageProcessor alloc] initWithOperation:_operarion operationProgress:_receiver];
+    [self.m_pOperationQueue addOperation:downloader];
 }
 
 - (IBAction)rotateImage:(id)sender {
     RotateImage * ri = [[RotateImage alloc] initWithImage:_m_pImageView.image];
-    _m_pImageViewResult.image = [ri getImage];
+    [self processOperation:ri withReceiver:self.m_pImageViewResult];
 }
 
 - (IBAction)invertColors:(id)sender {
-    ImageFilter *downloader = [[ImageFilter alloc] initWithImage:_m_pImageView.image];
-    downloader.completionBlock = ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"completionBlock");
-        });
-    };
-
-    ImageFilter *downloader1 = [[ImageFilter alloc] initWithImage:_m_pImageView.image];
-    downloader1.completionBlock = ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"completionBlock");
-        });
-    };
-
-    [self.m_pOperationQueue addOperation:downloader];
-    [self.m_pOperationQueue addOperation:downloader1];
-    
     InvertImage * ri = [[InvertImage alloc] initWithImage:_m_pImageView.image];
-    _m_pImageViewResult.image = [ri getImage];
+    [self processOperation:ri withReceiver:self.m_pImageViewResult];
 }
 
 - (IBAction)mirrorImage:(id)sender {
-    [self.m_pOperationQueue cancelAllOperations];
     MirrorImage * ri = [[MirrorImage alloc] initWithImage:_m_pImageView.image];
-    _m_pImageViewResult.image = [ri getImage];
+    [self processOperation:ri withReceiver:self.m_pImageViewResult];
 }
 
 // --- image picker ---
@@ -118,10 +73,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [info objectForKey:UIImagePickerControllerOriginalImage];
 }
 
-
-
 - (void)imagePickerControllerDidCancel:
 (UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 @end

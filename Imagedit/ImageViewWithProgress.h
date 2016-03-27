@@ -7,14 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImageOperation.h"
 
-@class Operation;
+@interface ImageViewWithProgress : UIImageView<ImageOperationProgress>
 
-//http://stackoverflow.com/questions/19831885/set-progress-bar-for-downloading-nsdata
-@interface ImageViewWithProgress : UIImageView
-
-- (void)updateProgress:(int)_nProgress;
-    
-@property (nonatomic) UIProgressView *m_pProgressView;
+@property (nonatomic, strong) UIProgressView *m_pProgressView;
 
 @end

@@ -45,7 +45,7 @@
                                 <rect key="frame" x="20" y="332" width="240" height="243"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coI-97-eXX">
-                                <rect key="frame" x="74" y="130" width="123" height="22"/>
+                                <rect key="frame" x="265" y="173" width="123" height="22"/>
                                 <state key="normal" title="pick image"/>
                                 <connections>
                                     <action selector="loadImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kOn-7l-fkW"/>
