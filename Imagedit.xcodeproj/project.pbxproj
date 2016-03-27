@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2924C4CE1CA6A5E000A9996D /* ImageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2924C4CD1CA6A5E000A9996D /* ImageProcessor.m */; };
+		2924C4D41CA7CD4B00A9996D /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2924C4D31CA7CD4B00A9996D /* CollectionViewCell.m */; };
+		2924C4D71CA7E6D000A9996D /* CellInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2924C4D61CA7E6D000A9996D /* CellInfo.m */; };
 		29B71C081C9D3B460087F689 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B71C071C9D3B460087F689 /* main.m */; };
 		29B71C0B1C9D3B460087F689 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B71C0A1C9D3B460087F689 /* AppDelegate.m */; };
 		29B71C0E1C9D3B460087F689 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B71C0D1C9D3B460087F689 /* ViewController.m */; };
@@ -22,6 +24,10 @@
 /* Begin PBXFileReference section */
 		2924C4CC1CA6A5E000A9996D /* ImageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageProcessor.h; sourceTree = "<group>"; };
 		2924C4CD1CA6A5E000A9996D /* ImageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageProcessor.m; sourceTree = "<group>"; };
+		2924C4D21CA7CD4B00A9996D /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		2924C4D31CA7CD4B00A9996D /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		2924C4D51CA7E6D000A9996D /* CellInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInfo.h; sourceTree = "<group>"; };
+		2924C4D61CA7E6D000A9996D /* CellInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInfo.m; sourceTree = "<group>"; };
 		29B71C031C9D3B460087F689 /* Imagedit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Imagedit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B71C071C9D3B460087F689 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B71C091C9D3B460087F689 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,6 +91,10 @@
 				29B71C281CA381B70087F689 /* ImageOperation.m */,
 				2924C4CC1CA6A5E000A9996D /* ImageProcessor.h */,
 				2924C4CD1CA6A5E000A9996D /* ImageProcessor.m */,
+				2924C4D21CA7CD4B00A9996D /* CollectionViewCell.h */,
+				2924C4D31CA7CD4B00A9996D /* CollectionViewCell.m */,
+				2924C4D51CA7E6D000A9996D /* CellInfo.h */,
+				2924C4D61CA7E6D000A9996D /* CellInfo.m */,
 			);
 			path = Imagedit;
 			sourceTree = "<group>";
@@ -176,10 +186,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2924C4CE1CA6A5E000A9996D /* ImageProcessor.m in Sources */,
+				2924C4D71CA7E6D000A9996D /* CellInfo.m in Sources */,
 				29B71C0E1C9D3B460087F689 /* ViewController.m in Sources */,
 				29B71C261CA057100087F689 /* ImageViewWithProgress.m in Sources */,
 				29B71C0B1C9D3B460087F689 /* AppDelegate.m in Sources */,
 				29B71C081C9D3B460087F689 /* main.m in Sources */,
+				2924C4D41CA7CD4B00A9996D /* CollectionViewCell.m in Sources */,
 				29B71C291CA381B70087F689 /* ImageOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
