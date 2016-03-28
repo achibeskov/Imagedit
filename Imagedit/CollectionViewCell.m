@@ -1,10 +1,3 @@
-//
-//  CollectionViewCell.m
-//  Imagedit
-//
-//  Created by archi on 3/27/16.
-//
-//
 
 #import "CollectionViewCell.h"
 

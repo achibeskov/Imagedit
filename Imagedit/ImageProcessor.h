@@ -1,15 +1,6 @@
-//
-//  ImageProcessor.h
-//  Imagedit
-//
-//  Created by archi on 3/26/16.
-//
-//
 
 #import <Foundation/Foundation.h>
 #import "ImageOperation.h"
-
-@class UIImage;
 
 @interface ImageProcessor : NSOperation
 

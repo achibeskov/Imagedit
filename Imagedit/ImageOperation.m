@@ -1,10 +1,6 @@
 //
 //  ImageOperation.m
 //  Imagedit
-//
-//  Created by archi on 3/24/16.
-//
-//
 
 #import "ImageOperation.h"
 
@@ -22,12 +18,10 @@
     srand(time(NULL));
     int delay = rand()%26+5;
     for (int i = 0; i < delay; ++i) {
-        NSLog(@"iteration in %d", i);
-//        sleep(1);
+        sleep(1);
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [_progressNotification update:i];
         }];
-        NSLog(@"iteration out %d", i);
     }
 }
 

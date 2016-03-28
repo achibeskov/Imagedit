@@ -1,10 +1,3 @@
-//
-//  CellInfo.h
-//  Imagedit
-//
-//  Created by archi on 3/27/16.
-//
-//
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

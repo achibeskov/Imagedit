@@ -1,10 +1,3 @@
-//
-//  ImageProcessor.m
-//  Imagedit
-//
-//  Created by archi on 3/26/16.
-//
-//
 
 #import "ImageProcessor.h"
 #import "ImageOperation.h"
@@ -21,10 +14,6 @@
 }
 
 - (void) main {
-    NSLog(@"main2 %@", _m_pImageOperation);
-    NSLog(@"main3 %@", _m_pImageOperationProgress);
-    NSLog(@"main4 %@", [NSThread currentThread]);
-
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
          [_m_pImageOperationProgress onStart];
     }];

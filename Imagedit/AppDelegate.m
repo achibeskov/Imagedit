@@ -1,10 +1,3 @@
-//
-//  AppDelegate.m
-//  Imagedit
-//
-//  Created by archi on 3/19/16.
-//
-//
 
 #import "AppDelegate.h"
 

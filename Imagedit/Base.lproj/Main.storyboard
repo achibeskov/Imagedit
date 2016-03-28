@@ -41,13 +41,6 @@
                                     <action selector="mirrorImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cXz-Cg-CG4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coI-97-eXX">
-                                <rect key="frame" x="252" y="130" width="84" height="30"/>
-                                <state key="normal" title="Pick image"/>
-                                <connections>
-                                    <action selector="loadImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kOn-7l-fkW"/>
-                                </connections>
-                            </button>
                             <collectionView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jbx-Vm-JZB">
                                 <rect key="frame" x="20" y="336" width="240" height="244"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2Zj-dV-d8M">
