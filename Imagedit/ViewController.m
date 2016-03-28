@@ -8,8 +8,8 @@
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSOperationQueue * m_pOperationQueue;
-@property (strong) NSMutableArray * m_pImageViewResults;
-@property (strong) CellInfo *cellInfo;
+@property (nonatomic, strong) NSMutableArray * m_pImageViewResults;
+@property (atomic, strong) CellInfo *cellInfo;
 @property NSInteger choosenIndex;
 
 @end
@@ -47,11 +47,6 @@
 // --- button actions ---
 
 - (void) processOperation:(id<ImageOperation>)_operarion withReceiver:(id<ImageOperationProgress>)_receiver {
-    // create image view with progress (cell)
-    // add cell to down
-    // +create nsopeartion with source image and operation to process
-    // +use cell as callback receiver
-    
     // add new cell
     CellInfo *cellInfo = [[CellInfo alloc] init];
     [self.m_pImageViewResults addObject:cellInfo];

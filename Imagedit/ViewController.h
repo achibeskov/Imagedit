@@ -5,8 +5,8 @@
 
 @interface ViewController : UIViewController
 
-@property (nonatomic) IBOutlet ImageViewWithProgress * m_pImageView;
-@property (nonatomic) IBOutlet UICollectionView * m_pImageViewCollection;
+@property (nonatomic, strong) IBOutlet ImageViewWithProgress * m_pImageView;
+@property (nonatomic, strong) IBOutlet UICollectionView * m_pImageViewCollection;
 
 - (IBAction)rotateImage:(id)sender;
 - (IBAction)invertColors:(id)sender;
