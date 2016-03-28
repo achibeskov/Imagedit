@@ -5,7 +5,7 @@
 #import "CellInfo.h"
 #import "CollectionViewCell.h"
 
-@interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate>
+@interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSOperationQueue * m_pOperationQueue;
 @property (strong) NSMutableArray * m_pImageViewResults;
@@ -174,11 +174,27 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void) getFromInternet {
-    DownlodImage * ri = [[DownlodImage alloc] initWithUrl:[NSURL URLWithString:@"http://i0.kym-cdn.com/entries/icons/original/000/005/545/OpoQQ.jpg"]];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter image's URL:" message:@"" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:@"Cancel", nil];
 
-    ImageProcessor *downloader = [[ImageProcessor alloc] initWithOperation:ri operationProgress:self.cellInfo];
-    
-    [self.m_pOperationQueue addOperation:downloader];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+
+    // enter test url
+    UITextField * alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.text = @"http://www.necdettas.com/wp-content/uploads/2015/09/test-site-300x279-300x279.jpg";
+    alertTextField.clearButtonMode = UITextFieldViewModeAlways;
+
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        UITextField * alertTextField = [alertView textFieldAtIndex:0];
+
+        // download entered image
+        DownlodImage * ri = [[DownlodImage alloc] initWithUrl:[NSURL URLWithString:alertTextField.text]];
+        ImageProcessor *downloader = [[ImageProcessor alloc] initWithOperation:ri operationProgress:self.cellInfo];
+        [self.m_pOperationQueue addOperation:downloader];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
