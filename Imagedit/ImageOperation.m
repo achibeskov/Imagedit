@@ -14,12 +14,12 @@
     return nil;
 }
 
-- (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification {
++ (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification {
     int delay = rand()%26+5;
     for (int i = 0; i < delay; ++i) {
         sleep(1);
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [_progressNotification update:i];
+            [_progressNotification update:(float)(i+1)/delay];
         }];
     }
 }
@@ -33,7 +33,7 @@
 @implementation RotateImage
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    [self fakeDelay:_progressNotification];
+    [ImageChange fakeDelay:_progressNotification];
 
     CGSize size = self.pImageToProcess.size;
     // rotate image
@@ -56,7 +56,7 @@
 @implementation InvertImage
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    [self fakeDelay:_progressNotification];
+    [ImageChange fakeDelay:_progressNotification];
 
     CGSize size = self.pImageToProcess.size;
     // make image black and white
@@ -80,7 +80,7 @@
 @implementation MirrorImage
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    [self fakeDelay:_progressNotification];
+    [ImageChange fakeDelay:_progressNotification];
 
     CGSize size = self.pImageToProcess.size;
     // mirror image

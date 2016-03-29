@@ -12,7 +12,7 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 
 @protocol ImageOperationProgress <NSObject>
 
-- (void) update:(int)_progress;
+- (void) update:(float)_progress;
 - (void) onFinish:(UIImage*)_resultImage;
 - (void) onStart;
 
@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 @interface ImageChange : NSObject <ImageOperation>
 
 - (id) initWithImage:(UIImage*)_pImage;
-- (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification;
++ (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification;
 
 @property (nonatomic, strong) UIImage *pImageToProcess;
 

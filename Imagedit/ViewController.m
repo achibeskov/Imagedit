@@ -26,7 +26,7 @@
     self.m_pImageViewResults = [NSMutableArray arrayWithCapacity:10];
     
     //setup collection view
-    [self.m_pImageViewCollection registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"myIdentifier"];
+    [self.m_pImageViewCollection registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"imageViewCells"];
     self.m_pImageViewCollection.allowsSelection = YES;
     
     // setup main image
@@ -96,7 +96,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"myIdentifier" forIndexPath:indexPath];
+    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageViewCells" forIndexPath:indexPath];
 
     CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:indexPath.item];
 
@@ -107,8 +107,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"didSelectItemAtIndexPath %d", indexPath.item);
-
     self.choosenIndex = indexPath.item;
     [self showGalleryActionSheet];
 }

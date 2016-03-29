@@ -15,5 +15,6 @@
 
 @property (atomic, strong) UIImage * image;
 @property (atomic) ImageProcessState state;
+@property (atomic) float progress;
 
 @end
