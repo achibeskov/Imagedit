@@ -13,4 +13,10 @@
     return self;
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    self.imageViewWithProgress.image = nil;
+    [self.imageViewWithProgress updateObservable:nil];
+}
+
 @end

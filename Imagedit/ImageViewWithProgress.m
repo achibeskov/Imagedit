@@ -1,7 +1,19 @@
 
 #import "ImageViewWithProgress.h"
 
+@interface ImageViewWithProgress()
+
+@property (nonatomic, strong) id<Observable> observable;
+
+@end
+
 @implementation ImageViewWithProgress
+
+- (void) updateObservable:(id<Observable>)observable {
+    [self.observable unregisterObserver];
+    self.observable = observable;
+    [self.observable registerObserver:self];
+}
 
 - (void) setupActivityIndicator {
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];

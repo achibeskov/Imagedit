@@ -98,12 +98,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"myIdentifier" forIndexPath:indexPath];
 
-    // reset cell content
-    cell.imageViewWithProgress.image = nil;
-
     CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:indexPath.item];
 
-    [cellInfo registerObserver:cell.imageViewWithProgress];
+    [cell.imageViewWithProgress updateObservable:cellInfo];
     [cellInfo notifyObserver];
 
     return cell;

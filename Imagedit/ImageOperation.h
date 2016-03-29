@@ -8,11 +8,17 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
     ImageProcessStateReady
 };
 
+@protocol Observable;
+
 @protocol ImageOperationProgress <NSObject>
 
 - (void) update:(int)_progress;
 - (void) onFinish:(UIImage*)_resultImage;
 - (void) onStart;
+
+@optional
+
+- (void) updateObservable:(id<Observable>)observable;
 
 @end
 

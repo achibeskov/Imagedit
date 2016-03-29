@@ -9,6 +9,13 @@
 
 @implementation CellInfo
 
+- (id)init {
+    if (self = [super init]) {
+        self.state = ImageProcessStateDefault;
+    }
+    return nil;
+}
+
 - (void) registerObserver:(id<ImageOperationProgress>)observer {
     self.observer = observer;
 }
