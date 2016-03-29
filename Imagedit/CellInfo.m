@@ -3,7 +3,7 @@
 
 @interface CellInfo ()
 
-@property (nullable, weak, atomic) id<ImageOperationProgress> observer;
+@property (nullable, weak) id<ImageOperationProgress> observer;
 
 @end
 

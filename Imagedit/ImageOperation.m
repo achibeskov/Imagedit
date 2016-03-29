@@ -99,9 +99,7 @@
 @end
 
 @interface DownlodImage ()
-@property (nonatomic) NSMutableData *imageData;
-@property (nonatomic) NSUInteger totalBytes;
-@property (nonatomic) NSUInteger receivedBytes;
+@property (nonatomic, strong) NSURL *pURL;
 @end
 
 @implementation DownlodImage

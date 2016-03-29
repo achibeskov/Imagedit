@@ -50,6 +50,4 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 
 - (id) initWithUrl:(NSURL*)pURL;
 
-@property (nonatomic, strong) NSURL *pURL;
-
 @end

@@ -9,7 +9,7 @@
 
 @property (nonatomic, strong) NSOperationQueue * m_pOperationQueue;
 @property (nonatomic, strong) NSMutableArray * m_pImageViewResults;
-@property (atomic, strong) CellInfo *cellInfo;
+@property (nonatomic, strong) CellInfo *cellInfo;
 @property NSInteger choosenIndex;
 
 @end
