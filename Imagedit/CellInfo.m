@@ -34,22 +34,34 @@
 }
 
 - (void) update:(float)progress {
-    [self.observer update:progress];
     self.progress = progress;
+    __weak CellInfo *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        CellInfo *strongSelf = weakSelf;
+        [strongSelf.observer update:progress];
+    }];
 }
 
 - (void) onFinish:(UIImage*)resultImage {
     self.image = resultImage;
     self.progress = 1.f;
     self.state = ImageProcessStateReady;
-    [self.observer onFinish:resultImage];
+    __weak CellInfo *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        CellInfo *strongSelf = weakSelf;
+        [strongSelf.observer onFinish:resultImage];
+    }];
 }
 
 - (void) onStart {
     self.image = nil;
     self.progress = .0f;
     self.state = ImageProcessStateInProgress;
-    [self.observer onStart];
+    __weak CellInfo *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        CellInfo *strongSelf = weakSelf;
+        [strongSelf.observer onStart];
+    }];
 }
 
 @end

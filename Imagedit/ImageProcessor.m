@@ -14,16 +14,11 @@
 }
 
 - (void) main {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-         [_m_pImageOperationProgress onStart];
-    }];
+    [_m_pImageOperationProgress onStart];
 
     UIImage * image = [self.m_pImageOperation getImageWithProgress:_m_pImageOperationProgress];
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-         [_m_pImageOperationProgress onFinish:image];
-    }];
-
+    [_m_pImageOperationProgress onFinish:image];
 }
 
 @end

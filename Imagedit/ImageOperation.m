@@ -18,9 +18,7 @@
     int delay = rand()%26+5;
     for (int i = 0; i < delay; ++i) {
         sleep(1);
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [_progressNotification update:(float)(i+1)/delay];
-        }];
+        [_progressNotification update:(float)(i+1)/delay];
     }
 }
 
