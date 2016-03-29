@@ -3,7 +3,7 @@
 
 @interface CellInfo ()
 
-@property (nullable, weak) id<ImageOperationProgress> observer;
+@property (nullable, weak, atomic) id<ImageOperationProgress> observer;
 
 @end
 
@@ -13,25 +13,31 @@
     self.observer = observer;
 }
 
-- (void) unregisterObserver:(id<ImageOperationProgress>)observer {
+- (void) unregisterObserver {
     self.observer = nil;
+}
+
+- (void) notifyObserver {
+    if (self.state == ImageProcessStateInProgress)
+        [self.observer onStart];
+    else if (self.state == ImageProcessStateReady)
+        [self.observer onFinish:self.image];
 }
 
 - (void) update:(int)progress {
     [self.observer update:progress];
-    self.progress = progress;
 }
 
 - (void) onFinish:(UIImage*)resultImage {
-    [self.observer onFinish:resultImage];
     self.image = resultImage;
-    self.progress = 10;
+    self.state = ImageProcessStateReady;
+    [self.observer onFinish:resultImage];
 }
 
 - (void) onStart {
-    [self.observer onStart];
     self.image = nil;
-    self.progress = 0;
+    self.state = ImageProcessStateInProgress;
+    [self.observer onStart];
 }
 
 @end

@@ -2,6 +2,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, ImageProcessState) {
+    ImageProcessStateDefault = 0,
+    ImageProcessStateInProgress,
+    ImageProcessStateReady
+};
+
 @protocol ImageOperationProgress <NSObject>
 
 - (void) update:(int)_progress;

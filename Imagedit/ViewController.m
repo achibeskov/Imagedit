@@ -100,13 +100,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
     // reset cell content
     cell.imageViewWithProgress.image = nil;
-    
+
     CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:indexPath.item];
 
-    if (cellInfo.image == nil)
-        [cell.imageViewWithProgress updateObservable:cellInfo];
-    else
-        cell.imageViewWithProgress.image = cellInfo.image;
+    [cellInfo registerObserver:cell.imageViewWithProgress];
+    [cellInfo notifyObserver];
 
     return cell;
 }

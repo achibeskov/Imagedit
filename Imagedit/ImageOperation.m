@@ -15,7 +15,6 @@
 }
 
 - (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification {
-    srand(time(NULL));
     int delay = rand()%26+5;
     for (int i = 0; i < delay; ++i) {
         sleep(1);

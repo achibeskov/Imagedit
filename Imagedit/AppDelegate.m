@@ -8,6 +8,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    srand(time(NULL));
     // Override point for customization after application launch.
     return YES;
 }

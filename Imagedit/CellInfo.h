@@ -6,13 +6,14 @@
 @protocol Observable <NSObject>
 
 - (void) registerObserver:(id<ImageOperationProgress>)observer;
-- (void) unregisterObserver:(id<ImageOperationProgress>)observer;
+- (void) unregisterObserver;
+- (void) notifyObserver;
 
 @end
 
 @interface CellInfo : NSObject <ImageOperationProgress, Observable>
 
 @property (atomic, strong) UIImage * image;
-@property (atomic) int progress;
+@property (atomic) ImageProcessState state;
 
 @end

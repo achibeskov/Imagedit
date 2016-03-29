@@ -3,46 +3,37 @@
 
 @implementation ImageViewWithProgress
 
-- (void) updateObservable:(id<Observable>) observable {
-    [self.observable unregisterObserver:self];
-    self.observable = observable;
-    [self.observable registerObserver:self];
+- (void) setupActivityIndicator {
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.activityIndicator.center = self.center;
+    [self.activityIndicator setHidden:true];
+    [self addSubview:self.activityIndicator];
 }
 
 - (id) initWithFrame:(CGRect)frame {
     if ([super initWithFrame:frame]) {
-        _m_pProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
-        [self addSubview:_m_pProgressView];
-        [_m_pProgressView setHidden:true];
+        [self setupActivityIndicator];
         return self;
     }
     return nil;
 }
 
 - (void) awakeFromNib {
-    BOOL called = NO;
-    if(!called)
-    {
-        called = YES;
-        _m_pProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
-        [self addSubview:_m_pProgressView];
-        [_m_pProgressView setHidden:true];
-    }
+    [self setupActivityIndicator];
 }
 
 - (void) onFinish:(UIImage*)_resultImage {
     self.image = _resultImage;
-    [_m_pProgressView setHidden:true];
-    [_m_pProgressView setProgress:.0];
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:true];
 }
 
 - (void) onStart {
-    [_m_pProgressView setHidden:false];
-    [_m_pProgressView setProgress:.0];
+    [self.activityIndicator startAnimating];
+    [self.activityIndicator setHidden:false];
 }
 
 - (void)update:(int)_progress {
-    [_m_pProgressView setProgress:_progress/10.];
 }
 
 @end
