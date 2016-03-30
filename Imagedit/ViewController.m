@@ -78,6 +78,11 @@
     [self processOperation:ri];
 }
 
+- (IBAction)invertColorImage:(id)sender {
+    InvertColorImage * ri = [[InvertColorImage alloc] initWithImage:self.imageView.image];
+    [self processOperation:ri];
+}
+
 // --- image picker ---
 
 - (void)imagePickerController:(UIImagePickerController *)picker

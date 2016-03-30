@@ -11,6 +11,7 @@
 - (IBAction)rotateImage:(id)sender;
 - (IBAction)invertColors:(id)sender;
 - (IBAction)mirrorImage:(id)sender;
+- (IBAction)invertColorImage:(id)sender;
 
 @end
 

@@ -98,6 +98,23 @@
 
 @end
 
+@implementation InvertColorImage
+
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    [ImageChange fakeDelay:_progressNotification];
+
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *coreImage = [CIImage imageWithCGImage:self.imageToProcess.CGImage];
+    CIFilter *filter = [CIFilter filterWithName:@"CIColorInvert"];
+    [filter setValue:coreImage forKey:kCIInputImageKey];
+    CIImage *result = [filter valueForKey:kCIOutputImageKey];
+    CGRect extent = [result extent];
+    CGImageRef cgImage = [context createCGImage:result fromRect:extent];
+    return [UIImage imageWithCGImage:cgImage];
+}
+
+@end
+
 @interface DownlodImage ()
 @property (nonatomic, strong) NSURL *url;
 @end
