@@ -12,6 +12,7 @@
 - (IBAction)invertColors:(id)sender;
 - (IBAction)mirrorImage:(id)sender;
 - (IBAction)invertColorImage:(id)sender;
+- (IBAction)leftMirrorImage:(id)sender;
 
 @end
 

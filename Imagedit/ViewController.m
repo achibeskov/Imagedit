@@ -83,6 +83,11 @@
     [self processOperation:ri];
 }
 
+- (IBAction)leftMirrorImage:(id)sender {
+    LeftMirrorImage * ri = [[LeftMirrorImage alloc] initWithImage:self.imageView.image];
+    [self processOperation:ri];
+}
+
 // --- image picker ---
 
 - (void)imagePickerController:(UIImagePickerController *)picker

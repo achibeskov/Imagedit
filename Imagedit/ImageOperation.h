@@ -49,6 +49,9 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 @interface InvertColorImage : ImageChange
 @end
 
+@interface LeftMirrorImage : ImageChange
+@end
+
 @interface DownlodImage : NSObject <ImageOperation, NSURLConnectionDataDelegate>
 
 - (id) initWithUrl:(NSURL*)url;

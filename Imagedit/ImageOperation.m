@@ -115,6 +115,56 @@
 
 @end
 
+@implementation LeftMirrorImage
+
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+    [ImageChange fakeDelay:_progressNotification];
+
+    CGSize size = self.imageToProcess.size;
+    // mirror image
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGContextTranslateCTM(context, 0.5f * size.width, 0.5f * size.height);
+    CGContextScaleCTM(context, -1, 1);
+    CGContextTranslateCTM(context, -0.5f * size.width, -0.5f * size.height);
+
+    [self.imageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *mirrorImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    // get halfs
+    CGFloat imgWidth = size.width/2;
+    CGFloat imgheight = size.height;
+
+    CGRect leftImgFrame = CGRectMake(0, 0, imgWidth, imgheight);
+    CGRect rightImgFrame = CGRectMake(imgWidth, 0, imgWidth, imgheight);
+
+    CGImageRef left = CGImageCreateWithImageInRect(self.imageToProcess.CGImage, leftImgFrame);
+    CGImageRef right = CGImageCreateWithImageInRect(mirrorImage.CGImage, rightImgFrame);
+
+    UIImage *leftImage = [UIImage imageWithCGImage:left];
+    UIImage *rightImage = [UIImage imageWithCGImage:right];
+
+    CGImageRelease(left);
+    CGImageRelease(right);
+
+    // draw halfs in one context
+    UIGraphicsBeginImageContext(size);
+    context = UIGraphicsGetCurrentContext();
+
+    [leftImage drawInRect:leftImgFrame];
+    [rightImage drawInRect:rightImgFrame];
+
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+
+    return resultImage;
+}
+
+@end
+
 @interface DownlodImage ()
 @property (nonatomic, strong) NSURL *url;
 @end
