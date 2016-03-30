@@ -69,8 +69,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="m_pImageView" destination="IiW-qY-j8l" id="BbT-jF-6W8"/>
-                        <outlet property="m_pImageViewCollection" destination="jbx-Vm-JZB" id="fQX-zf-mIv"/>
+                        <outlet property="imageView" destination="IiW-qY-j8l" id="wz3-gR-UCB"/>
+                        <outlet property="imageViewCollection" destination="jbx-Vm-JZB" id="6mn-k9-cOZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

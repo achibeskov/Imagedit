@@ -7,8 +7,8 @@
 
 @interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) NSOperationQueue * m_pOperationQueue;
-@property (nonatomic, strong) NSMutableArray * m_pImageViewResults;
+@property (nonatomic, strong) NSOperationQueue * operationQueue;
+@property (nonatomic, strong) NSMutableArray * imageViewResults;
 @property (nonatomic, strong) CellInfo *cellInfo;
 @property NSInteger chosenIndex;
 
@@ -20,23 +20,23 @@
     [super viewDidLoad];
     
     // setup operation queue
-    self.m_pOperationQueue = [[NSOperationQueue alloc] init];
-    self.m_pOperationQueue.maxConcurrentOperationCount = 4;
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.maxConcurrentOperationCount = 4;
 
-    self.m_pImageViewResults = [NSMutableArray arrayWithCapacity:10];
+    self.imageViewResults = [NSMutableArray arrayWithCapacity:10];
     
     //setup collection view
-    [self.m_pImageViewCollection registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"imageViewCells"];
-    self.m_pImageViewCollection.allowsSelection = YES;
+    [self.imageViewCollection registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"imageViewCells"];
+    self.imageViewCollection.allowsSelection = YES;
     
     // setup main image
     self.cellInfo = [[CellInfo alloc] init];
-    [self.cellInfo registerObserver:self.m_pImageView];
+    [self.cellInfo registerObserver:self.imageView];
     
     // setup main image iteraction
-    UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageActionSheet)];
-    [self.m_pImageView setUserInteractionEnabled:YES];
-    [self.m_pImageView addGestureRecognizer:newTap];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageActionSheet)];
+    [self.imageView setUserInteractionEnabled:YES];
+    [self.imageView addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,31 +49,31 @@
 - (void) processOperation:(id<ImageOperation>)operarion {
     // add new cell to collection view
     CellInfo *cellInfo = [[CellInfo alloc] init];
-    [self.m_pImageViewResults addObject:cellInfo];
+    [self.imageViewResults addObject:cellInfo];
 
     // add item to collection view and scroll to it
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[self.m_pImageViewResults count]-1 inSection:0];
-    [self.m_pImageViewCollection insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[self.imageViewResults count]-1 inSection:0];
+    [self.imageViewCollection insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 
-    [self.m_pImageViewCollection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.imageViewCollection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 
     // start operation processing
     ImageProcessor *imageProcessor = [[ImageProcessor alloc] initWithOperation:operarion operationProgress:cellInfo];
-    [self.m_pOperationQueue addOperation:imageProcessor];
+    [self.operationQueue addOperation:imageProcessor];
 }
 
 - (IBAction)rotateImage:(id)sender {
-    RotateImage * ri = [[RotateImage alloc] initWithImage:_m_pImageView.image];
+    RotateImage * ri = [[RotateImage alloc] initWithImage:self.imageView.image];
     [self processOperation:ri];
 }
 
 - (IBAction)invertColors:(id)sender {
-    InvertImage * ri = [[InvertImage alloc] initWithImage:_m_pImageView.image];
+    InvertImage * ri = [[InvertImage alloc] initWithImage:self.imageView.image];
     [self processOperation:ri];
 }
 
 - (IBAction)mirrorImage:(id)sender {
-    MirrorImage * ri = [[MirrorImage alloc] initWithImage:_m_pImageView.image];
+    MirrorImage * ri = [[MirrorImage alloc] initWithImage:self.imageView.image];
     [self processOperation:ri];
 }
 
@@ -83,7 +83,7 @@
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    self.m_pImageView.image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.imageView.image = [info objectForKey:UIImagePickerControllerOriginalImage];
 }
 
 - (void)imagePickerControllerDidCancel:
@@ -94,13 +94,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 // --- collection view ---
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.m_pImageViewResults count];
+    return [self.imageViewResults count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageViewCells" forIndexPath:indexPath];
 
-    CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:indexPath.item];
+    CellInfo *cellInfo = [self.imageViewResults objectAtIndex:indexPath.item];
 
     // update observable as view cells are reusable
     [cell.imageViewWithProgress updateObservable:cellInfo];
@@ -126,13 +126,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [popup showInView:self.view];
 }
 
-- (bool) isImageReady:(NSInteger)index {
-    CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:index];
+- (bool) isCellReady:(NSInteger)index {
+    CellInfo *cellInfo = [self.imageViewResults objectAtIndex:index];
     return cellInfo.state == ImageProcessStateReady;
 }
 
 - (void) showGalleryActionSheet {
-    if (![self isImageReady:self.chosenIndex]) {
+    if (![self isCellReady:self.chosenIndex]) {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Image is not ready yet" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
         [alert show];
         return;
@@ -148,19 +148,19 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void) saveImage:(NSInteger)index {
-    CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:index];
+    CellInfo *cellInfo = [self.imageViewResults objectAtIndex:index];
     UIImageWriteToSavedPhotosAlbum(cellInfo.image, nil, nil, nil);
 }
 
 - (void) removeImage:(NSInteger)index {
-    [self.m_pImageViewResults removeObjectAtIndex:index];
+    [self.imageViewResults removeObjectAtIndex:index];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    [self.m_pImageViewCollection deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+    [self.imageViewCollection deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 }
 
 - (void) useImage:(NSInteger)index {
-    CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:index];
-    self.m_pImageView.image = cellInfo.image;
+    CellInfo *cellInfo = [self.imageViewResults objectAtIndex:index];
+    self.imageView.image = cellInfo.image;
 }
 
 - (void) getFromLibrary {
@@ -197,7 +197,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         // download entered image
         DownlodImage * ri = [[DownlodImage alloc] initWithUrl:[NSURL URLWithString:alertTextField.text]];
         ImageProcessor *downloader = [[ImageProcessor alloc] initWithOperation:ri operationProgress:self.cellInfo];
-        [self.m_pOperationQueue addOperation:downloader];
+        [self.operationQueue addOperation:downloader];
     }
 }
 
