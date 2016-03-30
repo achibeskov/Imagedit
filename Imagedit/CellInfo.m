@@ -10,11 +10,11 @@
 @implementation CellInfo
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         self.state = ImageProcessStateDefault;
-        return self;
     }
-    return nil;
+    return self;
 }
 
 - (void) registerObserver:(id<ImageOperationProgress>)observer {

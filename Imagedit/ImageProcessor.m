@@ -5,20 +5,21 @@
 
 @implementation ImageProcessor
 
-- (id)initWithOperation:(id<ImageOperation>)_pImageOperation operationProgress:(id<ImageOperationProgress>)_pImageOperationProgress {
-    if (self = [super init]) {
-        _m_pImageOperation = _pImageOperation;
-        _m_pImageOperationProgress = _pImageOperationProgress;
+- (id)initWithOperation:(id<ImageOperation>)imageOperation operationProgress:(id<ImageOperationProgress>)imageOperationProgress {
+    self = [super init];
+    if (self) {
+        _imageOperation = imageOperation;
+        _imageOperationProgress = imageOperationProgress;
     }
     return self;
 }
 
 - (void) main {
-    [_m_pImageOperationProgress onStart];
+    [self.imageOperationProgress onStart];
 
-    UIImage * image = [self.m_pImageOperation getImageWithProgress:_m_pImageOperationProgress];
+    UIImage * image = [self.imageOperation getImageWithProgress:self.imageOperationProgress];
 
-    [_m_pImageOperationProgress onFinish:image];
+    [self.imageOperationProgress onFinish:image];
 }
 
 @end

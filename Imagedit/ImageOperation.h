@@ -12,8 +12,8 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 
 @protocol ImageOperationProgress <NSObject>
 
-- (void) update:(float)_progress;
-- (void) onFinish:(UIImage*)_resultImage;
+- (void) update:(float)progress;
+- (void) onFinish:(UIImage*)resultImage;
 - (void) onStart;
 
 @optional
@@ -24,16 +24,16 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 
 @protocol ImageOperation <NSObject>
 
-- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification;
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)progressNotification;
 
 @end
 
 @interface ImageChange : NSObject <ImageOperation>
 
-- (id) initWithImage:(UIImage*)_pImage;
-+ (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification;
+- (id) initWithImage:(UIImage*)image;
++ (void) fakeDelay:(id<ImageOperationProgress>)progressNotification;
 
-@property (nonatomic, strong) UIImage *pImageToProcess;
+@property (nonatomic, strong) UIImage *imageToProcess;
 
 @end
 
@@ -48,6 +48,6 @@ typedef NS_ENUM(NSInteger, ImageProcessState) {
 
 @interface DownlodImage : NSObject <ImageOperation, NSURLConnectionDataDelegate>
 
-- (id) initWithUrl:(NSURL*)pURL;
+- (id) initWithUrl:(NSURL*)url;
 
 @end

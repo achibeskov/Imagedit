@@ -7,8 +7,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.imageViewWithProgress = [[ImageViewWithProgress alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-        [self.contentView addSubview:self.imageViewWithProgress];
+        _imageViewWithProgress = [[ImageViewWithProgress alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+        [self.contentView addSubview:_imageViewWithProgress];
     }
     return self;
 }

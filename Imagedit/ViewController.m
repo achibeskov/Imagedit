@@ -10,7 +10,7 @@
 @property (nonatomic, strong) NSOperationQueue * m_pOperationQueue;
 @property (nonatomic, strong) NSMutableArray * m_pImageViewResults;
 @property (nonatomic, strong) CellInfo *cellInfo;
-@property NSInteger choosenIndex;
+@property NSInteger chosenIndex;
 
 @end
 
@@ -46,32 +46,31 @@
 
 // --- button actions ---
 
-- (void) processOperation:(id<ImageOperation>)_operarion withReceiver:(id<ImageOperationProgress>)_receiver {
-    // add new cell
+- (void) processOperation:(id<ImageOperation>)operarion {
+    // add new cell to collection view
     CellInfo *cellInfo = [[CellInfo alloc] init];
     [self.m_pImageViewResults addObject:cellInfo];
-    [cellInfo registerObserver:_receiver];
 
     [self.m_pImageViewCollection reloadData];
 
-    ImageProcessor *imageProcessor = [[ImageProcessor alloc] initWithOperation:_operarion operationProgress:cellInfo];
-
+    // start operation processing
+    ImageProcessor *imageProcessor = [[ImageProcessor alloc] initWithOperation:operarion operationProgress:cellInfo];
     [self.m_pOperationQueue addOperation:imageProcessor];
 }
 
 - (IBAction)rotateImage:(id)sender {
     RotateImage * ri = [[RotateImage alloc] initWithImage:_m_pImageView.image];
-    [self processOperation:ri withReceiver:nil];
+    [self processOperation:ri];
 }
 
 - (IBAction)invertColors:(id)sender {
     InvertImage * ri = [[InvertImage alloc] initWithImage:_m_pImageView.image];
-    [self processOperation:ri withReceiver:nil];
+    [self processOperation:ri];
 }
 
 - (IBAction)mirrorImage:(id)sender {
     MirrorImage * ri = [[MirrorImage alloc] initWithImage:_m_pImageView.image];
-    [self processOperation:ri withReceiver:nil];
+    [self processOperation:ri];
 }
 
 // --- image picker ---
@@ -80,8 +79,7 @@
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    self.m_pImageView.image =
-    [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.m_pImageView.image = [info objectForKey:UIImagePickerControllerOriginalImage];
 }
 
 - (void)imagePickerControllerDidCancel:
@@ -100,6 +98,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
     CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:indexPath.item];
 
+    // update observable as view cells are reusable
     [cell.imageViewWithProgress updateObservable:cellInfo];
     [cellInfo notifyObserver];
 
@@ -107,14 +106,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    self.choosenIndex = indexPath.item;
+    self.chosenIndex = indexPath.item;
     [self showGalleryActionSheet];
 }
 
 // --- action sheets ---
 
 - (void) showImageActionSheet {
-    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:@"Get image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+    UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:@"Get image from:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
                             @"Library",
                             @"Camera",
                             @"URL",
@@ -150,26 +149,25 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void) getFromLibrary {
-    UIImagePickerController *picker =
-    [[UIImagePickerController alloc] init];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void) getFromCamera {
-    UIImagePickerController *picker =
-    [[UIImagePickerController alloc] init];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void) getFromInternet {
+    // show text field through alert view
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter image's URL:" message:@"" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:@"Cancel", nil];
 
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 
-    // enter test url
+    // setup test url
     UITextField * alertTextField = [alert textFieldAtIndex:0];
     alertTextField.text = @"http://www.necdettas.com/wp-content/uploads/2015/09/test-site-300x279-300x279.jpg";
     alertTextField.clearButtonMode = UITextFieldViewModeAlways;
@@ -190,20 +188,22 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (actionSheet.tag == 1) {
+        // GalleryActionSheet
         switch (buttonIndex) {
             case 0:
-                [self saveImage:self.choosenIndex];
+                [self saveImage:self.chosenIndex];
                 break;
             case 1:
-                [self removeImage:self.choosenIndex];
+                [self removeImage:self.chosenIndex];
                 break;
             case 2:
-                [self useImage:self.choosenIndex];
+                [self useImage:self.chosenIndex];
                 break;
             default:
                 break;
         }
     } else if (actionSheet.tag == 2) {
+        // ImageActionSheet
         switch (buttonIndex) {
             case 0:
                 [self getFromLibrary];

@@ -16,24 +16,24 @@
 }
 
 - (void) setupActivityIndicator {
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.activityIndicator.center = self.center;
-    [self.activityIndicator setHidden:true];
-    [self addSubview:self.activityIndicator];
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityIndicator.center = self.center;
+    [_activityIndicator setHidden:true];
+    [self addSubview:_activityIndicator];
 
-    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
-    [self.progressView setHidden:true];
-    [self addSubview:self.progressView];
+    _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
+    [_progressView setHidden:true];
+    [self addSubview:_progressView];
 }
 
 - (id) initWithFrame:(CGRect)frame {
     // used in collection view
-    if ([super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         self.progressStyle = ImageViewProgressStyleDefinite;
         [self setupActivityIndicator];
-        return self;
     }
-    return nil;
+    return self;
 }
 
 - (void) awakeFromNib {
@@ -42,8 +42,8 @@
     [self setupActivityIndicator];
 }
 
-- (void) onFinish:(UIImage*)_resultImage {
-    self.image = _resultImage;
+- (void) onFinish:(UIImage*)resultImage {
+    self.image = resultImage;
     if (self.progressStyle == ImageViewProgressStyleIndefinite) {
         [self.activityIndicator stopAnimating];
         [self.activityIndicator setHidden:true];
@@ -63,8 +63,8 @@
     }
 }
 
-- (void)update:(float)_progress {
-    [self.progressView setProgress:_progress];
+- (void)update:(float)progress {
+    [self.progressView setProgress:progress];
 }
 
 @end

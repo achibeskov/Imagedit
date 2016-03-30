@@ -4,9 +4,9 @@
 
 @interface ImageProcessor : NSOperation
 
-@property (strong) id<ImageOperation> m_pImageOperation;
-@property (strong) id<ImageOperationProgress> m_pImageOperationProgress;
+@property (strong) id<ImageOperation> imageOperation;
+@property (strong) id<ImageOperationProgress> imageOperationProgress;
 
-- (id)initWithOperation:(id<ImageOperation>)_pImageOperation operationProgress:(id<ImageOperationProgress>)_pImageOperationProgress;
+- (id)initWithOperation:(id<ImageOperation>)imageOperation operationProgress:(id<ImageOperationProgress>)imageOperationProgress;
 
 @end

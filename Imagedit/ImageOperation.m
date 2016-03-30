@@ -6,23 +6,23 @@
 
 @implementation ImageChange
 
-- (id) initWithImage:(UIImage*)_pImage {
-    if (self = [super init]) {
-        _pImageToProcess = _pImage;
-        return self;
+- (id) initWithImage:(UIImage*)image {
+    self = [super init];
+    if (self) {
+        _imageToProcess = image;
     }
-    return nil;
+    return self;
 }
 
-+ (void) fakeDelay:(id<ImageOperationProgress>)_progressNotification {
++ (void) fakeDelay:(id<ImageOperationProgress>)progressNotification {
     int delay = rand()%26+5;
     for (int i = 0; i < delay; ++i) {
         sleep(1);
-        [_progressNotification update:(float)(i+1)/delay];
+        [progressNotification update:(float)(i+1)/delay];
     }
 }
 
-- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)progressNotification {
     return nil;
 }
 
@@ -30,10 +30,10 @@
 
 @implementation RotateImage
 
-- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    [ImageChange fakeDelay:_progressNotification];
+- (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)progressNotification {
+    [ImageChange fakeDelay:progressNotification];
 
-    CGSize size = self.pImageToProcess.size;
+    CGSize size = self.imageToProcess.size;
     // rotate image
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -42,7 +42,7 @@
     CGContextRotateCTM(context, M_PI_2);
     CGContextTranslateCTM(context, -0.5f * size.width, -0.5f * size.height);
 
-    [self.pImageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    [self.imageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
@@ -56,12 +56,12 @@
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
     [ImageChange fakeDelay:_progressNotification];
 
-    CGSize size = self.pImageToProcess.size;
+    CGSize size = self.imageToProcess.size;
     // make image black and white
     CGRect imageRect = CGRectMake(0, 0, size.width, size.height);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     CGContextRef context = CGBitmapContextCreate(nil, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaNone);
-    CGContextDrawImage(context, imageRect, [self.pImageToProcess CGImage]);
+    CGContextDrawImage(context, imageRect, [self.imageToProcess CGImage]);
     CGImageRef imageRef = CGBitmapContextCreateImage(context);
 
     UIImage *newImage = [UIImage imageWithCGImage:imageRef];
@@ -80,7 +80,7 @@
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
     [ImageChange fakeDelay:_progressNotification];
 
-    CGSize size = self.pImageToProcess.size;
+    CGSize size = self.imageToProcess.size;
     // mirror image
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -89,7 +89,7 @@
     CGContextScaleCTM(context, -1, 1);
     CGContextTranslateCTM(context, -0.5f * size.width, -0.5f * size.height);
 
-    [self.pImageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    [self.imageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -99,23 +99,25 @@
 @end
 
 @interface DownlodImage ()
-@property (nonatomic, strong) NSURL *pURL;
+@property (nonatomic, strong) NSURL *url;
 @end
 
 @implementation DownlodImage
 
-- (id) initWithUrl:(NSURL*)pURL {
-    if (self = [super init]) {
-        _pURL = pURL;
-        return self;
+- (id) initWithUrl:(NSURL*)url {
+    self = [super init];
+    if (self) {
+        _url = url;
     }
-    return nil;
+    return self;
 }
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    NSData *myData = [NSData dataWithContentsOfURL:_pURL];
-    UIImage *image = [UIImage imageWithData:myData];
-    NSLog(@"DownlodImage %@ %@ %@", _pURL, myData, image);
+    [ImageChange fakeDelay:_progressNotification];
+
+    NSData *data = [NSData dataWithContentsOfURL:_url];
+    UIImage *image = [UIImage imageWithData:data];
+
     return image;
 }
 
