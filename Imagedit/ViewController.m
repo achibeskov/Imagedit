@@ -51,7 +51,11 @@
     CellInfo *cellInfo = [[CellInfo alloc] init];
     [self.m_pImageViewResults addObject:cellInfo];
 
-    [self.m_pImageViewCollection reloadData];
+    // add item to collection view and scroll to it
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[self.m_pImageViewResults count]-1 inSection:0];
+    [self.m_pImageViewCollection insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+
+    [self.m_pImageViewCollection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 
     // start operation processing
     ImageProcessor *imageProcessor = [[ImageProcessor alloc] initWithOperation:operarion operationProgress:cellInfo];
@@ -122,7 +126,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [popup showInView:self.view];
 }
 
+- (bool) isImageReady:(NSInteger)index {
+    CellInfo *cellInfo = [self.m_pImageViewResults objectAtIndex:index];
+    return cellInfo.state == ImageProcessStateReady;
+}
+
 - (void) showGalleryActionSheet {
+    if (![self isImageReady:self.chosenIndex]) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Image is not ready yet" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:@"What to do with image" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
                             @"Save",
                             @"Remove",
@@ -140,7 +154,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void) removeImage:(NSInteger)index {
     [self.m_pImageViewResults removeObjectAtIndex:index];
-    [self.m_pImageViewCollection reloadData];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.m_pImageViewCollection deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 }
 
 - (void) useImage:(NSInteger)index {
