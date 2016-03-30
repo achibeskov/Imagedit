@@ -31,21 +31,25 @@
 @implementation RotateImage
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)progressNotification {
-    [ImageChange fakeDelay:progressNotification];
+//    [ImageChange fakeDelay:progressNotification];
 
     CGSize size = self.imageToProcess.size;
+//    CGSize contextSize = CGSizeMake(MAX(size.width, size.height), MAX(size.width, size.height));
     // rotate image
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextTranslateCTM(context, 0.5f * size.width, 0.5f * size.height);
+    CGSize rotatedSize = CGSizeApplyAffineTransform(size, CGAffineTransformMakeRotation(M_PI_2));
+    
+    CGContextTranslateCTM(context, 0.5f * rotatedSize.width, 0.5f * rotatedSize.height);
     CGContextRotateCTM(context, M_PI_2);
     CGContextTranslateCTM(context, -0.5f * size.width, -0.5f * size.height);
 
-    [self.imageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
+//    [self.imageToProcess drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    [self.imageToProcess drawAtPoint:CGPointMake(0, 0)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-
+    
     return image;
 }
 
@@ -54,7 +58,7 @@
 @implementation InvertImage
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    [ImageChange fakeDelay:_progressNotification];
+//    [ImageChange fakeDelay:_progressNotification];
 
     CGSize size = self.imageToProcess.size;
     // make image black and white
@@ -78,7 +82,7 @@
 @implementation MirrorImage
 
 - (UIImage*) getImageWithProgress:(id<ImageOperationProgress>)_progressNotification {
-    [ImageChange fakeDelay:_progressNotification];
+//    [ImageChange fakeDelay:_progressNotification];
 
     CGSize size = self.imageToProcess.size;
     // mirror image
