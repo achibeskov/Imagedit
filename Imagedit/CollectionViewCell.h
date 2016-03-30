@@ -4,6 +4,6 @@
 
 @interface CollectionViewCell : UICollectionViewCell
 
-@property (strong) ImageViewWithProgress *imageViewWithProgress;
+@property (strong) IBOutlet ImageViewWithProgress *imageViewWithProgress;
 
 @end

@@ -26,19 +26,9 @@
     [self addSubview:_progressView];
 }
 
-- (id) initWithFrame:(CGRect)frame {
-    // used in collection view
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.progressStyle = ImageViewProgressStyleDefinite;
-        [self setupActivityIndicator];
-    }
-    return self;
-}
-
 - (void) awakeFromNib {
-    // used for main image
-    self.progressStyle = ImageViewProgressStyleIndefinite;
+    self.progressStyle = ImageViewProgressStyleDefinite;
+    self.contentMode = UIViewContentModeScaleAspectFit;
     [self setupActivityIndicator];
 }
 

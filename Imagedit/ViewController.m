@@ -26,7 +26,6 @@
     self.imageViewResults = [NSMutableArray arrayWithCapacity:10];
     
     //setup collection view
-    [self.imageViewCollection registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"imageViewCells"];
     self.imageViewCollection.allowsSelection = YES;
     
     // setup main image
@@ -37,6 +36,8 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageActionSheet)];
     [self.imageView setUserInteractionEnabled:YES];
     [self.imageView addGestureRecognizer:tap];
+
+    self.imageView.progressStyle = ImageViewProgressStyleIndefinite;
 }
 
 - (void)didReceiveMemoryWarning {
