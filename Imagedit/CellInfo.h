@@ -13,7 +13,7 @@
 
 @interface CellInfo : NSObject <ImageOperationProgress, Observable>
 
-@property (atomic, strong) UIImage * image;
+@property (atomic, strong) UIImage * pimage;
 @property (atomic) ImageProcessState state;
 @property (atomic) float progress;
 
