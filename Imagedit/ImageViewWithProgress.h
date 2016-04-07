@@ -1,20 +1,17 @@
-//
-//  ImageViewWithProgress.h
-//  Imagedit
-//
-//  Created by archi on 3/21/16.
-//
-//
 
 #import <UIKit/UIKit.h>
+#import "ImageOperation.h"
+#import "CellInfo.h"
 
-@class Operation;
+typedef NS_ENUM(NSInteger, ImageViewProgressStyle) {
+    ImageViewProgressStyleIndefinite = 0,
+    ImageViewProgressStyleDefinite
+};
 
-//http://stackoverflow.com/questions/19831885/set-progress-bar-for-downloading-nsdata
-@interface ImageViewWithProgress : UIImageView
+@interface ImageViewWithProgress : UIImageView<ImageOperationProgress>
 
-- (void)updateProgress:(int)_nProgress;
-    
-@property (nonatomic) UIProgressView *m_pProgressView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIProgressView *progressView;
+@property ImageViewProgressStyle progressStyle;
 
 @end

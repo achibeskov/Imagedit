@@ -1,10 +1,3 @@
-//
-//  AppDelegate.m
-//  Imagedit
-//
-//  Created by archi on 3/19/16.
-//
-//
 
 #import "AppDelegate.h"
 
@@ -14,8 +7,8 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    srand(time(NULL));
     // Override point for customization after application launch.
     return YES;
 }

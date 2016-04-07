@@ -1,29 +1,60 @@
-//
-//  ImageViewWithProgress.m
-//  Imagedit
-//
-//  Created by archi on 3/21/16.
-//
-//
 
 #import "ImageViewWithProgress.h"
 
+@interface ImageViewWithProgress()
+
+@property (nonatomic, strong) id<Observable> observable;
+
+@end
+
 @implementation ImageViewWithProgress
 
-- (id)init {
-    if (self = [super init]) {
-        self.m_pProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
-        [self addSubview:self.m_pProgressView];
-        [self.m_pProgressView setHidden:false];
-        [self.m_pProgressView setProgress:0.5];
-    }
-    return self;
+- (void) updateObservable:(id<Observable>)observable {
+    [self.observable unregisterObserver];
+    self.observable = observable;
+    [self.observable registerObserver:self];
 }
 
-- (void)updateProgress:(int)_nProgress {
-    if (_nProgress < 10)
-        [self.m_pProgressView setHidden:false];
-    [self.m_pProgressView setProgress:_nProgress/10];
+- (void) setupActivityIndicator {
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityIndicator.center = self.center;
+    [_activityIndicator setHidden:true];
+    [self addSubview:_activityIndicator];
+
+    _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
+    [_progressView setHidden:true];
+    [self addSubview:_progressView];
+}
+
+- (void) awakeFromNib {
+    self.progressStyle = ImageViewProgressStyleDefinite;
+    self.contentMode = UIViewContentModeScaleAspectFit;
+    [self setupActivityIndicator];
+}
+
+- (void) onFinish:(UIImage*)resultImage {
+    self.image = resultImage;
+    if (self.progressStyle == ImageViewProgressStyleIndefinite) {
+        [self.activityIndicator stopAnimating];
+        [self.activityIndicator setHidden:true];
+    } else {
+        self.progressView.progress = 1.f;
+        [self.progressView setHidden:true];
+    }
+}
+
+- (void) onStart {
+    if (self.progressStyle == ImageViewProgressStyleIndefinite) {
+        [self.activityIndicator startAnimating];
+        [self.activityIndicator setHidden:false];
+    } else {
+        [self.progressView setHidden:false];
+        self.progressView.progress = .0f;
+    }
+}
+
+- (void)update:(float)progress {
+    [self.progressView setProgress:progress];
 }
 
 @end
